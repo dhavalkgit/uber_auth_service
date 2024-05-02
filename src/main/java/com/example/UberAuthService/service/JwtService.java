@@ -49,6 +49,9 @@ public class JwtService implements CommandLineRunner {
         return claimResolver.apply(claims);
     }
 
+    /**
+     *  check token is expired or not
+     */
     private Boolean tokenExpired(String token){
         Date exp = (Date) extractClaim(token, Claims::getExpiration);
         return new Date().before(exp);
