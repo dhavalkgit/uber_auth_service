@@ -29,4 +29,5 @@ public class AuthServiceImpl implements AuthService{
         Passenger newPassenger = passengerRepo.save(passenger);
         return PassengerDto.from(newPassenger);
     }
+
 }
