@@ -49,7 +49,7 @@ public class AuthControllerPassenger {
                 passengerSignInDto.getEmail(), passengerSignInDto.getPassword()));
 
         if(authenticate.isAuthenticated()){
-            String jwtToken = jwtService.createToken(passengerSignInDto.getEmail());
+            String jwtToken = jwtService.createToken(passengerSignInDto.getEmail(),"passenger");
 
             ResponseCookie responseCookie = ResponseCookie.from("JwtToken", jwtToken)
                     .httpOnly(true)

@@ -72,12 +72,12 @@ public class JwtService {
     /**
      *  The method is generate JWT token
      */
-    public String createToken(String username){
+    public String createToken(String username, String type){
         Date now = new Date();
         Date exp = new Date(now.getTime()+ expiry *1000L);
 
         return  Jwts.builder()
-                .claims(getPayload(username))
+                .claims(getPayload(username,type))
                 .issuedAt(now)
                 .expiration(exp)
                 .subject(username)
@@ -85,13 +85,14 @@ public class JwtService {
                 .compact();
     }
 
-    private Map<String,Object> getPayload(String username){
+    private Map<String,Object> getPayload(String username, String type){
         Optional<Passenger> passenger = passengerRepo.findByEmail(username);
         Map<String,Object> payload = new HashMap<>();
         if(passenger.isPresent()){
             payload.put("name",passenger.get().getName());
             payload.put("phone",passenger.get().getPhoneNumber());
         }
+        payload.put("type",type);
         return payload;
     }
 }
