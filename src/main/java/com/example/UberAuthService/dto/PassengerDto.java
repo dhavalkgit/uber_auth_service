@@ -1,6 +1,6 @@
 package com.example.UberAuthService.dto;
 
-import com.example.UberAuthService.model.Passenger;
+import com.example.uberprojectentityservice.models.Passenger;
 import lombok.*;
 
 @Getter

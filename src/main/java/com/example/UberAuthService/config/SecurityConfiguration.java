@@ -23,7 +23,6 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/auth/signin/*").permitAll()
                                 .requestMatchers("/api/v1/auth/signup/*").permitAll()
                 )
-
                 .build();
     }
 

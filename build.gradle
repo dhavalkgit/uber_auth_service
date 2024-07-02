@@ -19,6 +19,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
@@ -30,7 +31,7 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.flywaydb:flyway-mysql:8.4.4'
+//	implementation 'org.flywaydb:flyway-mysql:8.4.4'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
 //	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.2.5'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
@@ -38,6 +39,8 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	implementation 'io.jsonwebtoken:jjwt:0.12.5'
+
+	implementation 'com.example:UberProject-EntityService:0.0.1-SNAPSHOT'
 }
 
 tasks.named('test') {

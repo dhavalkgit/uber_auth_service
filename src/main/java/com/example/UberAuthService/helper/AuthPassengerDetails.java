@@ -1,6 +1,6 @@
 package com.example.UberAuthService.helper;
 
-import com.example.UberAuthService.model.Passenger;
+import com.example.uberprojectentityservice.models.Passenger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +14,6 @@ public class AuthPassengerDetails implements UserDetails {
     public AuthPassengerDetails(Passenger passenger){
         this.password = passenger.getPassword();
         this.username = passenger.getEmail();
-        System.out.println("Object is created");
     }
 
     @Override

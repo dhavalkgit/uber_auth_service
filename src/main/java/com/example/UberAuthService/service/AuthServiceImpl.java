@@ -2,9 +2,8 @@ package com.example.UberAuthService.service;
 
 import com.example.UberAuthService.dto.PassengerDto;
 import com.example.UberAuthService.dto.PassengerSignUpDto;
-import com.example.UberAuthService.model.Passenger;
+import com.example.uberprojectentityservice.models.Passenger;
 import com.example.UberAuthService.repositories.PassengerRepo;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,7 @@ public class AuthServiceImpl implements AuthService{
                 .email(passengerSignUpDto.getEmail())
                 .phoneNumber(passengerSignUpDto.getPhoneNumber())
                 .password(passwordEncoder.encode(passengerSignUpDto.getPassword()))
+                .rating(1.0)
                 .build();
         Passenger newPassenger = passengerRepo.save(passenger);
         return PassengerDto.from(newPassenger);

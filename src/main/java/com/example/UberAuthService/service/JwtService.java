@@ -1,26 +1,34 @@
 package com.example.UberAuthService.service;
 
+import com.example.UberAuthService.repositories.PassengerRepo;
+import com.example.uberprojectentityservice.models.Passenger;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-public class JwtService implements CommandLineRunner {
+public class JwtService {
     @Value("${jwt.expiry}")
     private int expiry;
 
     @Value("${jwt.secrate}")
     private String secrete;
+
+    private final PassengerRepo passengerRepo;
+
+    public JwtService(PassengerRepo passengerRepo){
+        this.passengerRepo=passengerRepo;
+    }
 
     public SecretKey getKeys(){
         return Keys.hmacShaKeyFor(secrete.getBytes(StandardCharsets.UTF_8));
@@ -64,28 +72,26 @@ public class JwtService implements CommandLineRunner {
     /**
      *  The method is generate JWT token
      */
-    private String createToken(Map<String,Object> payload, String username){
+    public String createToken(String username){
         Date now = new Date();
         Date exp = new Date(now.getTime()+ expiry *1000L);
 
         return  Jwts.builder()
-                .claims(payload)
-                .issuedAt(new Date(System.currentTimeMillis()))
+                .claims(getPayload(username))
+                .issuedAt(now)
                 .expiration(exp)
                 .subject(username)
                 .signWith(getKeys())
                 .compact();
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        Map<String,Object> mp = new HashMap<>();
-        mp.put("email","dhaval@gmail.com");
-        mp.put("name","Dhaval");
-        mp.put("phoneNumber",8130842);
-
-        String result = createToken(mp,"dhaval10");
-        System.out.println(result);
-        System.out.println(isTokenValid(result,"dhaval@gmail.com"));
+    private Map<String,Object> getPayload(String username){
+        Optional<Passenger> passenger = passengerRepo.findByEmail(username);
+        Map<String,Object> payload = new HashMap<>();
+        if(passenger.isPresent()){
+            payload.put("name",passenger.get().getName());
+            payload.put("phone",passenger.get().getPhoneNumber());
+        }
+        return payload;
     }
 }
